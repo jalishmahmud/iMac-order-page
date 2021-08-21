@@ -1,13 +1,13 @@
-// memory
-const extraMemoryCost = document.getElementById('extra-memory');
-//storage
-const extraStorageCost = document.getElementById('extra-storage');
-// delivery charge
-const deliveryCharge = document.getElementById('delivery-charge');
-// total price
-const totalPrice = document.getElementById('total-price');
-// grand total price 
-const gtandTotal = document.getElementById('grand-total');
+// get current cost 
+function getCurrentCost(costId) {
+    const cost = document.getElementById(costId);
+    return cost;
+};
+const extraMemoryCost = getCurrentCost('extra-memory');
+const extraStorageCost = getCurrentCost('extra-storage');
+const deliveryCharge = getCurrentCost('delivery-charge');
+const totalPrice = getCurrentCost('total-price');
+const gtandTotal = getCurrentCost('grand-total');
 
 // calculate total price
 function getTotalPrice() {
@@ -20,7 +20,25 @@ function getTotalPrice() {
     gtandTotal.innerText = totalCost;
 };
 
-// promo code apply
+// event handeler fucntion
+function eventHandeler(option, price, setPrice) {
+    document.getElementById(option).addEventListener('click', function () {
+        setPrice.innerText = price;
+        getTotalPrice();
+    });
+};
+//memory
+eventHandeler('memory-8gb', '0', extraMemoryCost);
+eventHandeler('memory-16gb', '180', extraMemoryCost);
+//storage
+eventHandeler('storage-256gb', '0', extraStorageCost);
+eventHandeler('storage-512gb', '100', extraStorageCost);
+eventHandeler('storage-1tb', '180', extraStorageCost);
+//delevery
+eventHandeler('free-delivery', '0', deliveryCharge);
+eventHandeler('express-delivery', '20', deliveryCharge);
+
+// promo code apply function
 function applyPromo() {
     const promoCode = document.getElementById('promo-code');
     if (promoCode.value == 'stevekaku') {
@@ -28,44 +46,12 @@ function applyPromo() {
         const grandTotalAfterPromo = grandTotalAmount / 100 * 80;
         gtandTotal.innerText = grandTotalAfterPromo;
         promoCode.value = '';
-    };
+    }
+    else {
+        promoCode.value = '';
+    }
 };
-
-// memory event handeler
-document.getElementById('memory-8gb').addEventListener('click', function () {
-    extraMemoryCost.innerText = '0';
-    getTotalPrice();
-});
-document.getElementById('memory-16gb').addEventListener('click', function () {
-    extraMemoryCost.innerText = '180';
-    getTotalPrice();
-});
-
-// storage event handeler
-document.getElementById('storage-256gb').addEventListener('click', function () {
-    extraStorageCost.innerText = '0';
-    getTotalPrice();
-});
-document.getElementById('storage-512gb').addEventListener('click', function () {
-    extraStorageCost.innerText = '100';
-    getTotalPrice();
-});
-document.getElementById('storage-1tb').addEventListener('click', function () {
-    extraStorageCost.innerText = '180';
-    getTotalPrice();
-});
-
-// delivery event handeler
-document.getElementById('free-delivery').addEventListener('click', function () {
-    deliveryCharge.innerText = '0';
-    getTotalPrice();
-});
-document.getElementById('express-delivery').addEventListener('click', function () {
-    deliveryCharge.innerText = '20';
-    getTotalPrice();
-});
-
-// pormo button handeler
+// pormo button event handeler
 document.getElementById('promo-button').addEventListener('click', function () {
     applyPromo();
 });
